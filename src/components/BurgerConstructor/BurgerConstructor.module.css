@@ -1,9 +1,14 @@
 .constructorWindow {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+
+  height: 696px;
   width: auto;
   padding-right: 8px;
   padding-left: 48px;
-  margin-top: 16px;
-  margin-bottom: 16px;
+  margin-top: 15px;
+  margin-bottom: 15px;
   outline: 1px solid red;
   display: flex;
   overflow-y: scroll;
@@ -18,8 +23,11 @@
 
 .constructorWindow::-webkit-scrollbar-thumb {
   background-color: #8585ad;
-  /* color: #2f2f37; */
-  /* outline: 1px solid slategrey; */
+}
+
+.box {
+  width: 600px;
+  outline: 1px solid green;
 }
 
 .topItem {
@@ -30,19 +38,16 @@
   display: flex;
 }
 
-.item {
-  /* padding-right: 8px; */
+/* .item {
   margin-left: auto;
   outline: 1px solid greenyellow;
-}
+} */
 
 .border {
   margin-left: 40px;
-  width: 600px;
+  /* width: 600px; */
   height: 650px;
-  margin-top: 100px;
-  /* margin-right: 380px; */
-  /* padding: 20px 16px; */
+  margin-top: 40px;
   margin-left: auto;
   display: flex;
   flex-direction: column;
@@ -50,12 +55,8 @@
 }
 
 .orderDetails {
-  /* width: 600px; */
-  /* height: 650px; */
   margin-top: 40px;
-  /* margin-left: auto; */
-  padding-right: 16px;
-  /* margin-right: 380px; */
+  padding-right: 15px;
   margin-left: auto;
   display: flex;
   flex-direction: row;
@@ -68,4 +69,5 @@
   display: flex;
   align-items: center;
   margin-left: auto;
+  gap: 9px;
 }

@@ -1,94 +1,113 @@
 import React from "react";
-import { setSyntheticLeadingComments } from "typescript";
+// import { setSyntheticLeadingComments } from "typescript";
 import styles from "./BurgerIngredients.module.css";
+
+import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import { DATA } from "../../data";
 
-import { useCallback } from "react";
-import { useRef } from "react";
-import { useState } from "react";
-import { PetCard } from "./PetCard";
-import { useDrop } from "react-dnd";
+// import { useCallback } from "react";
+// import { useRef } from "react";
+// import { useState } from "react";
+// import { useDrop } from "react-dnd";
 
 import { ListItem } from "../ListItem/ListItem";
-
-const PETS = [
-  { _id: 1, name: "dog" },
-  { _id: 2, name: "cat" },
-  { _id: 3, name: "fish" },
-  { _id: 4, name: "hamster" },
-];
-
-// class BurgerIngredients extends React.Component {
-//   render() {
-//     return <div className={styles.box}></div>;
-//   }
-// }
-
-// export default BurgerIngredients;
+// import { prettyDOM } from "@testing-library/react";
 
 export const BurgerIngredients = () => {
-  const [basket, setBasket] = useState([]);
-
-  const [{ isOver }, dropRef] = useDrop({
-    accept: "item",
-    drop: (item, monitor) => {
-      console.log("dropping");
-      console.log(item.name);
-
-      if (basket.filter((e) => e._id === item._id).length === 0) {
-        setBasket((basket) =>
-          !basket.includes(item) ? [...basket, item] : basket
-        );
-      }
-    },
-    collect: (monitor) => ({
-      isOver: monitor.isOver(),
-    }),
-  });
-
-  const moveListItem = useCallback(
-    (dragIndex, hoverIndex) => {
-      console.log("-==-");
-      const dragItem = basket[dragIndex];
-      const hoverItem = basket[hoverIndex];
-      console.log(dragIndex);
-      console.log(hoverIndex);
-      // Swap places of dragItem and hoverItem in the pets array
-      setBasket((basket) => {
-        const updatedPets = [...basket];
-        updatedPets[dragIndex] = hoverItem;
-        updatedPets[hoverIndex] = dragItem;
-        return updatedPets;
-      });
-    },
-    [basket]
-  );
-
+  const [current, setCurrent] = React.useState("one");
   return (
-    <React.Fragment>
-      <div>
-        {DATA.map((pet, index) => (
-          <ListItem
-            draggable
-            key={pet._id}
-            _id={pet._id}
-            name={pet.name}
-            index={index}
-          />
-        ))}
+    <div className={styles.box}>
+      <div className={styles.tilte}>
+        <div className="p-4">
+          <p className="text text_type_main-large">Соберите бургер</p>
+        </div>
+        {() => {
+          return (
+            <>
+              <div style={{ display: "flex" }}>
+                <Tab
+                  value="one"
+                  active={current === "one"}
+                  onClick={setCurrent}
+                >
+                  One
+                </Tab>
+                <Tab
+                  value="two"
+                  active={current === "two"}
+                  onClick={setCurrent}
+                >
+                  Two
+                </Tab>
+                <Tab
+                  value="three"
+                  active={current === "three"}
+                  onClick={setCurrent}
+                >
+                  Three
+                </Tab>
+              </div>
+            </>
+          );
+        }}
       </div>
-      <div className={styles.basket} ref={dropRef}>
-        {basket.map((pet, index) => (
-          <ListItem
-            key={pet._id}
-            _id={pet._id}
-            name={pet.name}
-            index={index}
-            moveListItem={moveListItem}
-          />
-        ))}
+      <div className={styles.box}>
+        <div className="m-2">
+          <p className="text text_type_main-medium">Булки</p>
+        </div>
+        <ul className={styles.ingredients}>
+          {DATA.filter((e) => e.type === "bun").map((item, index) => (
+            <ListItem
+              itemType={"gridItem"}
+              type={item.type}
+              key={item._id}
+              _id={item._id}
+              name={item.name}
+              index={index}
+              image={item.image}
+              image_large={item.image_large}
+              price={item.price}
+            />
+          ))}
+        </ul>
+        <div className="m-2">
+          <p className="text text_type_main-medium">Соусы</p>
+        </div>
+        <ul className={styles.ingredients}>
+          {DATA.filter((e) => e.type === "sauce").map((item, index) => (
+            <ListItem
+              itemType={"gridItem"}
+              type={item.type}
+              key={item._id}
+              _id={item._id}
+              name={item.name}
+              index={index}
+              image={item.image}
+              image_large={item.image_large}
+              price={item.price}
+            />
+          ))}
+        </ul>
+        <div className="m-2">
+          <p className="text text_type_main-medium">Основное</p>
+        </div>
+        <ul className={styles.ingredients}>
+          {DATA.filter((e) => e.type === "main").map((item, index) => (
+            <ListItem
+              itemType={"gridItem"}
+              type={item.type}
+              key={item._id}
+              _id={item._id}
+              name={item.name}
+              index={index}
+              image={item.image}
+              image_large={item.image_large}
+              price={item.price}
+            />
+          ))}
+        </ul>
       </div>
-    </React.Fragment>
+    </div>
   );
 };
