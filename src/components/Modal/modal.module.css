@@ -14,13 +14,26 @@
 }
 
 .titleGroup {
-  height: 36px;
+  /* height: 36px; */
   width: 640px;
   margin-left: auto;
   margin-right: auto;
   margin-top: 30px;
   display: flex;
+  align-items: center;
   justify-content: space-between;
+}
+
+.title {
+  width: 580px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  font-family: "JetBrains Mono";
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 40px;
+  color: #f2f2f3;
 }
 
 .closeButton {
@@ -29,6 +42,66 @@
   background-position: center;
   background-repeat: no-repeat;
   cursor: pointer;
+}
+
+.ingredientImage {
+  height: 240px;
+  width: 480px;
+  margin-left: auto;
+  margin-right: auto;
+
+  /* background: url(meat-01.png); */
+}
+
+.ingredientsTitle {
+  margin-top: 16px;
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 30px;
+  text-align: center;
+  color: #f2f2f3;
+}
+
+.ingredients {
+  width: 520px;
+  /* height: 118px; */
+  margin-top: 32px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 60px;
+  display: flex;
+  justify-content: space-between;
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 30px;
+  text-align: center;
+  color: #f2f2f3;
+}
+
+.ingredientsItem {
+  width: 120px;
+  height: 56px;
+}
+
+.ingredientsItemTitle {
+  font-family: "JetBrains Mono";
+  font-size: 16px;
+  line-height: 24px;
+  text-align: center;
+  color: #8585ad;
+}
+
+.ingredientsItemSubtitle {
+  margin-top: 8px;
+  font-family: "Iceland";
+  font-size: 28px;
+  line-height: 24px;
+  text-align: center;
+  color: #8585ad;
 }
 
 .numbers {

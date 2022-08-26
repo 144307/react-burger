@@ -66,19 +66,19 @@ export default function App() {
   //     });
   // }, []);
 
-  myApi.getData().then((response) => {
-    setResponse(response.results.data);
-  });
-  fetch(apiUrl)
-    .then((response) => response.json())
-    .then((result) => {
-      console.log("apiUrl", apiUrl);
-      console.log("result", result);
-      // this.state = {date: new Date()};
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  // myApi.getData().then((response) => {
+  //   setResponse(response.results.data);
+  // });
+  // fetch(apiUrl)
+  //   .then((response) => response.json())
+  //   .then((result) => {
+  //     console.log("apiUrl", apiUrl);
+  //     console.log("result", result);
+  //     // this.state = {date: new Date()};
+  //   })
+  //   .catch((error) => {
+  //     console.log(error);
+  //   });
 
   const ingredientRef = React.createRef();
   // const ingredientRef = useRef();
