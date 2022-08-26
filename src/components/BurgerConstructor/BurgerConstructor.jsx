@@ -1,4 +1,5 @@
-import React from "react"; // импорт библиотеки
+import React from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 import { useDrop } from "react-dnd";
 import { useCallback } from "react";
@@ -9,15 +10,20 @@ import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { DATA } from "../../data";
 import { ListItem } from "../ListItem/ListItem";
 
-export const BurgerConstructor = () => {
-  // const [basket, setBasket] = useState(DATA);
+export const BurgerConstructor = ({ onClick }) => {
+  const [price, setPrice] = useState();
+  useEffect(() => {
+    console.log("useEffect");
+    updatePrice();
+  });
+
   const [basket, setBasket] = useState([]);
   const [{ isOver }, dropRef] = useDrop({
     accept: "item",
-    drop: (item, monitor) => {
-      // console.log("basket", basket.length);
-      // console.log("item", item.name);
-      // console.log("item", item);
+    // drop: (item, monitor) => {
+    drop: (item) => {
+      console.log("item", item.name);
+      console.log("price", item.price);
       if (basket.length === 0 && item.type === "bun") {
         setBasket((basket) =>
           !basket.includes(item) ? [...basket, item] : basket
@@ -29,11 +35,6 @@ export const BurgerConstructor = () => {
           );
         }
       }
-      // if (basket.filter((e) => e._id === item._id).length === 0) {
-      //   setBasket((basket) =>
-      //     !basket.includes(item) ? [...basket, item] : basket
-      //   );
-      // }
     },
     collect: (monitor) => ({
       isOver: monitor.isOver(),
@@ -56,6 +57,26 @@ export const BurgerConstructor = () => {
     [basket]
   );
 
+  const updatePrice = () => {
+    let price = 0;
+    for (let i = 0; i < basket.length; i++) {
+      // console.log("basket at i", basket[i]);
+      price += basket[i].price;
+    }
+    // console.log("MAIN Price", price);
+    setPrice(price);
+  };
+
+  const handleClose = (id) => {
+    // console.log("handleClose id", id);
+    // console.log("basket", basket.length);
+    // console.log(
+    //   "basket",
+    //   basket.filter((e) => e._id === id)
+    // );
+    setBasket(basket.filter((e) => e._id != id));
+  };
+
   const ListItems = () => {
     // let newArray = DATA.slice(1, DATA.length - 1);
     let newArray = basket.slice(1, DATA.length - 1);
@@ -76,6 +97,10 @@ export const BurgerConstructor = () => {
             image={item.image}
             price={item.price}
             moveListItem={moveListItem}
+            handleClose={handleClose}
+            onClick={() => {
+              onClick(item._id);
+            }}
           />
         ))}
       </ul>
@@ -125,7 +150,7 @@ export const BurgerConstructor = () => {
       </div>
       <div className={styles.orderDetails}>
         <div className={styles.price}>
-          <p className="text text_type_digits-medium">610</p>
+          <p className="text text_type_digits-medium">{price}</p>
           <CurrencyIcon type="primary" />
         </div>
         <Button type="primary" size="large">
@@ -135,108 +160,3 @@ export const BurgerConstructor = () => {
     </div>
   );
 };
-
-//
-
-// import React from "react"; // импорт библиотеки
-// import styles from "./BurgerConstructor.module.css";
-// import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
-// import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-// import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
-// import { DATA } from "../../data";
-
-// class BurgerConstructor extends React.Component {
-//   topItem() {
-//     return (
-//       <div className={styles.topItem}>
-//         <ConstructorElement
-//           key={DATA[0]._id}
-//           type={"top"}
-//           isLocked={true}
-//           text={DATA[0].name}
-//           price={DATA[0].price}
-//           thumbnail={DATA[0].image}
-//         />
-//       </div>
-//     );
-//   }
-
-//   // listItems() {
-//   //   let newArray = DATA.slice(1, DATA.length - 1);
-//   //   // console.log(newArray);
-//   //   return newArray.map((d) => (
-//   //     <div
-//   //       className={styles.constructorWindow}
-//   //       style={{ display: "flex", flexDirection: "column", gap: "16px" }}
-//   //     >
-//   //       <ConstructorElement
-//   //         key={d._id}
-//   //         // type={"main"}
-//   //         isLocked={false}
-//   //         text={d.name}
-//   //         price={d.price}
-//   //         thumbnail={d.image}
-//   //       />
-//   //     </div>
-//   //   ));
-//   // }
-
-//   listItems() {
-//     let newArray = DATA.slice(1, DATA.length - 1);
-//     return (
-//       <ul
-//         className={styles.constructorWindow}
-//         style={{ display: "flex", flexDirection: "column", gap: "16px" }}
-//       >
-//         {newArray.map((d) => (
-//           <ConstructorElement
-//             key={d._id}
-//             // type={"main"}
-//             isLocked={false}
-//             text={d.name}
-//             price={d.price}
-//             thumbnail={d.image}
-//           />
-//         ))}
-//       </ul>
-//     );
-//   }
-
-//   botttomItem() {
-//     return (
-//       <div className={styles.topItem}>
-//         <ConstructorElement
-//           key={DATA[DATA.length - 1]._id}
-//           type={"bottom"}
-//           isLocked={true}
-//           text={DATA[DATA.length - 1].name}
-//           price={DATA[DATA.length - 1].price}
-//           thumbnail={DATA[DATA.length - 1].image}
-//         />
-//       </div>
-//     );
-//   }
-
-//   render() {
-//     return (
-//       <div>
-//         <div className={styles.border}>
-//           <this.topItem />
-//           <this.listItems />
-//           <this.botttomItem />
-//         </div>
-//         <div className={styles.orderDetails}>
-//           <div className={styles.price}>
-//             <p className="text text_type_digits-medium">610</p>
-//             <CurrencyIcon type="primary" />
-//           </div>
-//           <Button type="primary" size="large">
-//             Оформить заказ
-//           </Button>
-//         </div>
-//       </div>
-//     );
-//   }
-// }
-
-// export default BurgerConstructor;

@@ -8,16 +8,30 @@ import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-comp
 
 import styles from "./ListItem.module.css";
 
+// {
+//   itemType,
+//   type,
+//   index,
+//   _id,
+//   name,
+//   image,
+//   image_large,
+//   price,
+//   moveListItem,
+//   handleClose,
+// }
 export const ListItem = ({
   itemType,
   type,
   index,
   _id,
   name,
-  moveListItem,
   image,
   image_large,
   price,
+  moveListItem,
+  handleClose,
+  onClick,
 }) => {
   const firstRef = useRef(null);
 
@@ -47,11 +61,25 @@ export const ListItem = ({
 
   // const opacity = isDragging ? 0 : 1;
 
+  const listHandleClose = () => {
+    handleClose(_id);
+  };
+
   const testImage = "https://code.s3.yandex.net/react/code/bun-02.png";
+
+  // const testFunc = () => {
+  //   onClick();
+  // };
 
   if (itemType === "listItem") {
     return (
-      <div ref={dragDropRef}>
+      <div
+        className={styles.listItem}
+        ref={dragDropRef}
+        onClick={() => {
+          onClick();
+        }}
+      >
         <ConstructorElement
           key={_id}
           // type={"top"}
@@ -59,29 +87,28 @@ export const ListItem = ({
           text={name}
           price={price}
           thumbnail={image}
+          handleClose={listHandleClose}
         />
       </div>
     );
   } else {
     return (
-      <div className={styles.box}>
-        {/* <Counter count={1} size="default" /> */}
-        <div className={styles.gridItem} ref={dragDropRef}>
-          <img className={styles.gridImage} src={image} />
-          <div className={styles.price}>
-            <p className="text text_type_digits-medium">{price}</p>
-            <CurrencyIcon type="primary" />
-          </div>
-          <div className={styles.title}>
-            <p className="text text_type_main-small">{name}</p>
-          </div>
+      <div
+        className={styles.gridItem}
+        ref={dragDropRef}
+        onClick={() => {
+          onClick();
+        }}
+      >
+        <img className={styles.gridImage} src={image} />
+        <div className={styles.price}>
+          <p className="text text_type_digits-medium">{price}</p>
+          <CurrencyIcon type="primary" />
+        </div>
+        <div className={styles.title}>
+          <p className="text text_type_main-small">{name}</p>
         </div>
       </div>
     );
   }
-  // return (
-  //   <div className={styles.ListItem} ref={dragDropRef} style={{ opacity }}>
-  //     {name}
-  //   </div>
-  // );
 };

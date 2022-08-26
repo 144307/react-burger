@@ -14,43 +14,26 @@ import { DATA } from "../../data";
 import { ListItem } from "../ListItem/ListItem";
 // import { prettyDOM } from "@testing-library/react";
 
-export const BurgerIngredients = () => {
+export const BurgerIngredients = ({ onClick }) => {
   const [current, setCurrent] = React.useState("one");
+
   return (
-    <div className={styles.box}>
+    <div className={styles.mainBox}>
       <div className={styles.tilte}>
         <div className="p-4">
           <p className="text text_type_main-large">Соберите бургер</p>
         </div>
-        {() => {
-          return (
-            <>
-              <div style={{ display: "flex" }}>
-                <Tab
-                  value="one"
-                  active={current === "one"}
-                  onClick={setCurrent}
-                >
-                  One
-                </Tab>
-                <Tab
-                  value="two"
-                  active={current === "two"}
-                  onClick={setCurrent}
-                >
-                  Two
-                </Tab>
-                <Tab
-                  value="three"
-                  active={current === "three"}
-                  onClick={setCurrent}
-                >
-                  Three
-                </Tab>
-              </div>
-            </>
-          );
-        }}
+        <div style={{ display: "flex" }}>
+          {/* <Tab value="one" active={current === "one"} onClick={setCurrent}>
+            One
+          </Tab>
+          <Tab value="two" active={current === "two"} onClick={setCurrent}>
+            Two
+          </Tab>
+          <Tab value="three" active={current === "three"} onClick={setCurrent}>
+            Three
+          </Tab> */}
+        </div>
       </div>
       <div className={styles.box}>
         <div className="m-2">
@@ -68,6 +51,9 @@ export const BurgerIngredients = () => {
               image={item.image}
               image_large={item.image_large}
               price={item.price}
+              onClick={() => {
+                onClick(item._id);
+              }}
             />
           ))}
         </ul>
@@ -86,6 +72,9 @@ export const BurgerIngredients = () => {
               image={item.image}
               image_large={item.image_large}
               price={item.price}
+              onClick={() => {
+                onClick(item._id);
+              }}
             />
           ))}
         </ul>
@@ -104,6 +93,9 @@ export const BurgerIngredients = () => {
               image={item.image}
               image_large={item.image_large}
               price={item.price}
+              onClick={() => {
+                onClick(item._id);
+              }}
             />
           ))}
         </ul>
