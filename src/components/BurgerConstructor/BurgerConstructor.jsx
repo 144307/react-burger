@@ -10,7 +10,10 @@ import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { DATA } from "../../data";
 import { ListItem } from "../ListItem/ListItem";
 
-export const BurgerConstructor = ({ onClick }) => {
+export const BurgerConstructor = ({
+  openIngredientDetails,
+  openOrderDetails,
+}) => {
   const [price, setPrice] = useState();
   useEffect(() => {
     console.log("useEffect");
@@ -99,7 +102,7 @@ export const BurgerConstructor = ({ onClick }) => {
             moveListItem={moveListItem}
             handleClose={handleClose}
             onClick={() => {
-              onClick(item._id);
+              openIngredientDetails(item._id);
             }}
           />
         ))}
@@ -153,7 +156,13 @@ export const BurgerConstructor = ({ onClick }) => {
           <p className="text text_type_digits-medium">{price}</p>
           <CurrencyIcon type="primary" />
         </div>
-        <Button type="primary" size="large">
+        <Button
+          type="primary"
+          size="large"
+          onClick={() => {
+            openIngredientDetails();
+          }}
+        >
           Оформить заказ
         </Button>
       </div>
