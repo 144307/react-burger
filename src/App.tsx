@@ -6,7 +6,7 @@ import { BurgerConstructor } from "./components/BurgerConstructor/BurgerConstruc
 // import BurgerConstructor from "./components/BurgerConstructor/BurgerConstructor";
 import { BurgerIngredients } from "./components/BurgerIngredients/BurgerIngredients";
 // import { ModalOverlay } from "./components/ModalOverlay/ModalOverlay";
-import ModalOverlay from "./components/ModalOverlay/ModalOverlay";
+import { ModalOverlay } from "./components/ModalOverlay/ModalOverlay";
 import { createRef } from "react";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -21,186 +21,175 @@ import Api from "./components/Api/Api";
 
 import "./fonts/fonts.css";
 
-// import { useDrag } from "react-dnd";
-
 const apiUrl = "https://norma.nomoreparties.space/api/ingredients";
 
 const myApi = new Api(apiUrl);
 
-class App extends React.Component {
-  state = { data: [] };
-  ingredientRef = React.createRef();
-  private myRef = createRef();
+interface Props {
+  _id: string;
+  name: string;
+  type: string;
+  proteins: number;
+  fat: number;
+  carbohydrates: number;
+  calories: number;
+  price: number;
+  image: string;
+  image_mobile: string;
+  image_large: string;
+  __v: number;
+}
 
-  componentDidMount() {
-    myApi.getData().then((response) => {
-      // setResponse(response.results.data);
-      this.setState({
-        data: response.results.data,
-      });
-    });
+export const App = () => {
+  const [data, setData] = React.useState<any[]>([]);
+  const [ingredientsList, setIngredientsList] = React.useState<any[]>([]);
+  const [constructorList, setConstructorList] = React.useState([]);
+  const [modalOppened, setModalOppened] = React.useState(false);
+  const [CurrentModalOverlay, setCurrentModalOverlay] = React.useState(false); // true - ingredients, false - order
+
+  const ingredientRef = useRef(null);
+
+  useEffect(() => {
     fetch(apiUrl)
       .then((response) => response.json())
-      .then((result) => {
-        console.log("result", result);
+      .then((response) => {
+        console.log("response", response);
         // this.state = {date: new Date()};
+        setData(response.data);
+        setIngredientsList(response.data);
+        setConstructorList(response.data);
+        console.log("data", data);
       })
       .catch((error) => {
         console.log(error);
       });
-  }
+  }, []);
 
-  testing = (id: string) => {
-    console.log("check id", DATA.filter((e) => e._id === id)[0]);
-    this.setState({
-      data: DATA.filter((e) => e._id === id),
-    });
-
-    // console.log("ingredientRef.current", ingredientRef.current);
-    // ingredientRef.current(); //?
-  };
-  openIngredientDetails = (id: string) => {
-    console.log("check id", DATA.filter((e) => e._id === id)[0]);
-    this.setState({
-      data: DATA.filter((e) => e._id === id),
-    });
-
-    console.log("ingredientRef.current", this.ingredientRef.current);
-    // this.ingredientRef.current; //?
-  };
-
-  testOutput = () => {
-    console.log("testOutput");
-  };
-
-  openOrderDetails = () => {};
-
-  render() {
-    return (
-      <div className="App">
-        <AppHeader />
-        <div className={styles.box}>
-          <DndProvider backend={HTML5Backend}>
-            <BurgerIngredients onClick={this.testing} />
-            <BurgerConstructor
-              openIngredientDetails={this.openIngredientDetails}
-              openOrderDetails={this.testOutput}
-            />
-          </DndProvider>
-          {/* <ModalOverlay ref={ingredientRef}>{"DATA"}</ModalOverlay> */}
-          <ModalOverlay
-            data={this.state.data}
-            ingredientRef={this.ingredientRef}
-          ></ModalOverlay>
-        </div>
-      </div>
+  const openIngredientDetails = (id: string, returnedData: Props[]) => {
+    setModalOppened(!modalOppened);
+    console.log(
+      "openIngredientDetails check id",
+      ingredientsList.filter((e) => e._id === id)[0]
     );
-  }
-}
+    console.log("returnedData", returnedData);
+    setData(ingredientsList.filter((e) => e._id === id)[0]);
+    setCurrentModalOverlay(true);
+  };
 
-export default App;
+  const openOrderDetails = (basket: Props) => {
+    setModalOppened(!modalOppened);
+    console.log("openOrderDetails", basket);
+    setCurrentModalOverlay(false);
+  };
 
-// const myApi = new Api(apiUrl);
+  return (
+    <div className="App">
+      <AppHeader />
+      <div className={styles.box}>
+        <DndProvider backend={HTML5Backend}>
+          <BurgerIngredients
+            data={ingredientsList}
+            openIngredientDetails={openIngredientDetails}
+          />
+          <BurgerConstructor
+            data={constructorList}
+            openIngredientDetails={openIngredientDetails}
+            openOrderDetails={openOrderDetails}
+          />
+        </DndProvider>
+        <ModalOverlay
+          // object={"test"}
+          data={data}
+          ingredientRef={ingredientRef}
+          modalOppened={modalOppened}
+          CurrentModalOverlay={CurrentModalOverlay}
+        ></ModalOverlay>
+      </div>
+    </div>
+  );
+};
 
-// // class App extends React.Component {
-// //   // state = { data: true };
+//
 
-// // export default App;
+// class App extends React.Component {
+//   state = {
+//     data: [],
+//     ingredientsList: [],
+//     constructorList: [],
+//     selectedItem: [],
+//     modalOppened: false,
+//   };
+//   ingredientRef = React.createRef();
 
-// export default function App() {
-//   interface StateProperties {
-//     _id: string;
-//     name: string;
-//     type: string;
-//     proteins: number;
-//     fat: number;
-//     carbohydrates: number;
-//     calories: number;
-//     price: number;
-//     image: string;
-//     image_mobile: string;
-//     image_large: string;
-//     __v: number;
+//   // const ingredientRef = useRef(null);
+
+//   componentDidMount() {
+//     fetch(apiUrl)
+//       .then((response) => response.json())
+//       .then((response) => {
+//         console.log("response", response);
+//         // this.state = {date: new Date()};
+//         this.setState({
+//           data: response.data,
+//           ingredientsList: response.data,
+//           constructorList: response.data,
+//         });
+//         this.forceUpdate();
+//         console.log("this.state.data", this.state.data);
+//       })
+//       .catch((error) => {
+//         console.log(error);
+//       });
 //   }
 
-//   const [data, setResponse] = useState<StateProperties[]>(DATA);
+//   openIngredientDetails = (id: string, returnedData: Props) => {
+//     console.log(
+//       "openIngredientDetails check id",
+//       DATA.filter((e) => e._id === id)[0]
 
-//   console.log("DATA", DATA);
+//       // returnedData.filter((e: Props) => e._id === id)[0]
+//       // const numbers = [1, 4, 9];
+//       // returnedData.map(() =>{}})
+//     );
+//     console.log("returnedData", returnedData);
+//     this.setState({
+//       data: DATA.filter((e) => e._id === id),
+//     });
 
-//   // myApi.getData().then((response) => {
-//   //   setResponse(response.results.data);
-//   // });
-//   // fetch(apiUrl)
-//   //   .then((response) => response.json())
-//   //   .then((result) => {
-//   //     console.log("apiUrl", apiUrl);
-//   //     console.log("result", result);
-//   //     // this.state = {date: new Date()};
-//   //   })
-//   //   .catch((error) => {
-//   //     console.log(error);
-//   //   });
-
-//   // const ingredientRef = React.createRef();
-//   const ingredientRef = useRef(null);
-
-//   const testing = (id: string) => {
-//     console.log("check id", DATA.filter((e) => e._id === id)[0]);
-//     setResponse(DATA.filter((e) => e._id === id));
-
-//     console.log("ingredientRef.current", ingredientRef.current);
-//     // ingredientRef.current(); //?
-//   };
-//   const openIngredientDetails = (id: string) => {
-//     console.log("check id", DATA.filter((e) => e._id === id)[0]);
-//     setResponse(DATA.filter((e) => e._id === id));
-
-//     console.log("ingredientRef.current", ingredientRef.current);
-//     // ingredientRef.current(); //?
+//     console.log("ingredientRef.current", this.ingredientRef.current);
+//     // this.ingredientRef.current();
 //   };
 
-//   const testOutput = () => {
-//     console.log("testOutput");
+//   openOrderDetails = (basket: Props) => {
+//     console.log("openOrderDetails", basket);
 //   };
 
-//   const openOrderDetails = () => {};
-
-//   return (
-//     <div className="App">
-//       <AppHeader />
-//       <div className={styles.box}>
-//         <DndProvider backend={HTML5Backend}>
-//           <BurgerIngredients onClick={testing} />
-//           <BurgerConstructor
-//             openIngredientDetails={testing}
-//             openOrderDetails={testOutput}
-//           />
-//         </DndProvider>
-//         {/* <ModalOverlay ref={ingredientRef}>{"DATA"}</ModalOverlay> */}
-//         <ModalOverlay data={data} ingredientRef={ingredientRef}></ModalOverlay>
+//   render() {
+//     return (
+//       <div className="App">
+//         <AppHeader />
+//         <div className={styles.box}>
+//           <DndProvider backend={HTML5Backend}>
+//             <BurgerIngredients
+//               data={this.state.ingredientsList}
+//               openIngredientDetails={this.openIngredientDetails}
+//             />
+//             <BurgerConstructor
+//               data={this.state.constructorList}
+//               openIngredientDetails={this.openIngredientDetails}
+//               openOrderDetails={this.openOrderDetails}
+//             />
+//           </DndProvider>
+//           {/* <ModalOverlay ref={ingredientRef}>{"DATA"}</ModalOverlay> */}
+//           <ModalOverlay
+//             data={this.state.data}
+//             ingredientRef={this.ingredientRef}
+//             // test={this.props.openFunc}s
+//           ></ModalOverlay>
+//         </div>
 //       </div>
-//     </div>
-//   );
+//     );
+//   }
 // }
 
-// // class App extends React.Component {
-// //   render({});
-// // }
-
-// // export default App;
-
-// //
-
-// // const App = () => {
-// //   const [data, setData] = useState([]);
-
-// //   useEffect(() => {
-// //     getIngredients(url)
-// //       .then((item) => {
-// //         setData(Array.from(item.data));
-// //       })
-// //       .catch((err) => {
-// //         console.log(err);
-// //       });
-// //   }, []);
-// // };
+// export default App;

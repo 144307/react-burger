@@ -11,6 +11,7 @@ import { DATA } from "../../data";
 import { ListItem } from "../ListItem/ListItem";
 
 export const BurgerConstructor = ({
+  data,
   openIngredientDetails,
   openOrderDetails,
 }) => {
@@ -81,8 +82,8 @@ export const BurgerConstructor = ({
   };
 
   const ListItems = () => {
-    // let newArray = DATA.slice(1, DATA.length - 1);
-    let newArray = basket.slice(1, DATA.length - 1);
+    // let newArray = basket.slice(1, DATA.length - 1);
+    let newArray = basket.slice(1, data.length - 1);
     return (
       <ul
         className={styles.constructorWindow}
@@ -102,7 +103,7 @@ export const BurgerConstructor = ({
             moveListItem={moveListItem}
             handleClose={handleClose}
             onClick={() => {
-              openIngredientDetails(item._id);
+              openIngredientDetails(item._id, data);
             }}
           />
         ))}
@@ -160,7 +161,8 @@ export const BurgerConstructor = ({
           type="primary"
           size="large"
           onClick={() => {
-            openIngredientDetails();
+            openOrderDetails(basket);
+            // console.log("basket", basket);
           }}
         >
           Оформить заказ

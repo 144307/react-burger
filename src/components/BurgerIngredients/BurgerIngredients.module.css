@@ -12,7 +12,7 @@
   column-gap: 24px;
   row-gap: 32px;
   /* display: flex; */
-  outline: 1px solid greenyellow;
+  /* outline: 1px solid greenyellow; */
 }
 
 .mainBox {
@@ -27,7 +27,7 @@
   height: 912px;
   overflow-y: scroll;
 
-  outline: 1px solid green;
+  /* outline: 1px solid green; */
 }
 
 .box::-webkit-scrollbar {

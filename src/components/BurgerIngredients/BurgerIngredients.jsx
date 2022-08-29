@@ -14,7 +14,7 @@ import { DATA } from "../../data";
 import { ListItem } from "../ListItem/ListItem";
 // import { prettyDOM } from "@testing-library/react";
 
-export const BurgerIngredients = ({ onClick }) => {
+export const BurgerIngredients = ({ data, openIngredientDetails }) => {
   const [current, setCurrent] = React.useState("one");
 
   return (
@@ -40,64 +40,70 @@ export const BurgerIngredients = ({ onClick }) => {
           <p className="text text_type_main-medium">Булки</p>
         </div>
         <ul className={styles.ingredients}>
-          {DATA.filter((e) => e.type === "bun").map((item, index) => (
-            <ListItem
-              itemType={"gridItem"}
-              type={item.type}
-              key={item._id}
-              _id={item._id}
-              name={item.name}
-              index={index}
-              image={item.image}
-              image_large={item.image_large}
-              price={item.price}
-              onClick={() => {
-                onClick(item._id);
-              }}
-            />
-          ))}
+          {data
+            .filter((e) => e.type === "bun")
+            .map((item, index) => (
+              <ListItem
+                itemType={"gridItem"}
+                type={item.type}
+                key={item._id}
+                _id={item._id}
+                name={item.name}
+                index={index}
+                image={item.image}
+                image_large={item.image_large}
+                price={item.price}
+                onClick={() => {
+                  openIngredientDetails(item._id, data);
+                }}
+              />
+            ))}
         </ul>
         <div className="m-2">
           <p className="text text_type_main-medium">Соусы</p>
         </div>
         <ul className={styles.ingredients}>
-          {DATA.filter((e) => e.type === "sauce").map((item, index) => (
-            <ListItem
-              itemType={"gridItem"}
-              type={item.type}
-              key={item._id}
-              _id={item._id}
-              name={item.name}
-              index={index}
-              image={item.image}
-              image_large={item.image_large}
-              price={item.price}
-              onClick={() => {
-                onClick(item._id);
-              }}
-            />
-          ))}
+          {data
+            .filter((e) => e.type === "sauce")
+            .map((item, index) => (
+              <ListItem
+                itemType={"gridItem"}
+                type={item.type}
+                key={item._id}
+                _id={item._id}
+                name={item.name}
+                index={index}
+                image={item.image}
+                image_large={item.image_large}
+                price={item.price}
+                onClick={() => {
+                  openIngredientDetails(item._id, data);
+                }}
+              />
+            ))}
         </ul>
         <div className="m-2">
           <p className="text text_type_main-medium">Основное</p>
         </div>
         <ul className={styles.ingredients}>
-          {DATA.filter((e) => e.type === "main").map((item, index) => (
-            <ListItem
-              itemType={"gridItem"}
-              type={item.type}
-              key={item._id}
-              _id={item._id}
-              name={item.name}
-              index={index}
-              image={item.image}
-              image_large={item.image_large}
-              price={item.price}
-              onClick={() => {
-                onClick(item._id);
-              }}
-            />
-          ))}
+          {data
+            .filter((e) => e.type === "main")
+            .map((item, index) => (
+              <ListItem
+                itemType={"gridItem"}
+                type={item.type}
+                key={item._id}
+                _id={item._id}
+                name={item.name}
+                index={index}
+                image={item.image}
+                image_large={item.image_large}
+                price={item.price}
+                onClick={() => {
+                  openIngredientDetails(item._id, data);
+                }}
+              />
+            ))}
         </ul>
       </div>
     </div>
